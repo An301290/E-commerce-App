@@ -1,5 +1,7 @@
 import { ArrowBackIos, ArrowForwardIos } from "@material-ui/icons";
 import styled from "styled-components";
+import {useState}  from "react";
+import { sliderItems } from '../data'; 
 
 const Container = styled.div`
   width: 100%;
@@ -11,7 +13,7 @@ const Container = styled.div`
 const Arrow = styled.div`
   width: 50px;
   height: 50px;
-  background-color: white;
+  background-color: transparent;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -23,16 +25,19 @@ const Arrow = styled.div`
   right: ${(props) => props.direction === "right" && "10px"};
   margin: auto;
   cursor: pointer;
+  z-index: 2;
 `;
 const Wrapper = styled.div`
   height: 100%;
   display: flex;
+  transform: translate(0vw);
 `;
 const Slide = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
+  background-color: #${(props) => props.bg};
 `;
 const ImageContainer = styled.div`
   height: 100%;
@@ -62,39 +67,36 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+
+
 const Slider = () => {
+    const [slideIndex, setSlideIndex] = useState(0); 
+    const handleClick = (direction) => {}; 
+
   return (
     <Container>
-      <Arrow direction="left">
+      <Arrow direction="left" onClick={() => handleClick('left')}>
         <ArrowBackIos />
       </Arrow>
       <Wrapper>
-        <Slide>
+          {sliderItems.map(item => (
+        <Slide bg={item.bg}>
           <ImageContainer>
-            <Image src="https://cdn.pixabay.com/photo/2017/08/01/11/48/woman-2564660_960_720.jpg" />
+            <Image src={item.img} />
           </ImageContainer>
           <InfoContainer>
-            <Title>Summer Jacket</Title>
-            <Description>The best quality for this summer</Description>
+            <Title>{item.title}</Title>
+            <Description>{item.desc}</Description>
             <Button>Shop Now</Button>
           </InfoContainer>
         </Slide>
-        <Slide>
-          <ImageContainer>
-            <Image src="https://cdn.pixabay.com/photo/2017/08/01/11/48/woman-2564660_960_720.jpg" />
-          </ImageContainer>
-          <InfoContainer>
-            <Title>Summer Jacket</Title>
-            <Description>The best quality for this summer</Description>
-            <Button>Shop Now</Button>
-          </InfoContainer>
-        </Slide>
+        ))}
       </Wrapper>
-      <Arrow direction="right">
+      <Arrow direction="right" onClick={() => handleClick('right')}>
         <ArrowForwardIos />
       </Arrow>
     </Container>
-  );
-};
+  )
+}
 
 export default Slider;
